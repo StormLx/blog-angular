@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
       {
         label: 'Home',
         icon: 'pi pi-fw pi-home',
+        routerLink: '/',
       }
     ]
   }
