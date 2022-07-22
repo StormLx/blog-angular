@@ -7,5 +7,5 @@ import articles from '../assets/file/articles.json';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  articles = articles;
+
 }

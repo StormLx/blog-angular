@@ -24,6 +24,7 @@
     "@angular/platform-server": "^14.0.0",
     "@angular/router": "^14.0.0",
     "@nguniversal/express-engine": "^14.0.3",
+    "@nrwl/angular": "^14.4.3",
     "express": "^4.15.2",
     "primeflex": "^3.2.1",
     "primeicons": "^5.0.0",
