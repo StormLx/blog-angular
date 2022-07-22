@@ -4,9 +4,12 @@
 @import '~primeicons/primeicons.css';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
+$main-color: #007BFF;
+
 html, body {
   height: 100vh;
 }
+
 body {
   padding: 0;
   max-width: 1600px;
@@ -16,6 +19,31 @@ body {
   line-height: 28px;
 }
 
+h1 {
+  color: #C3002F;
+}
+
+.text-primary {
+  color: $main-color;
+}
+
 .p-card .p-card-content {
   padding: 0;
 }
+
+a {
+  text-decoration: none;
+
+  &:link {
+    color: $main-color;
+  }
+
+  &:visited {
+    color: $main-color;
+  }
+
+  &:hover {
+    text-decoration-line: underline;
+  }
+}
+
