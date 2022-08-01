@@ -6,12 +6,11 @@
     l'utilisateur, exécutées ligne par ligne de manière <strong>synchrone</strong>.</p>
   <p>La programmation réactive est une approche de programmation qui utilise des flux de données pour gérer les données
     de manière <strong>asynchrone</strong>.</p>
-  Voyez l'exemple suivant:
+  Voyez l'exemple suivant :
   <div class="grid">
     <div class="col-6">
-      <pre>
-      <code>
-        <strong>Impérative:</strong>
+      <pre data-lang='Impérative' class='prettyprint'>
+
         A = 1;
         B = A + 1;
         C = B + 1;
@@ -21,13 +20,11 @@
         A = 100;
         B = <strong>2</strong>;
         C = <strong>3</strong>;
-      </code>
         </pre>
     </div>
     <div class="col-6">
-      <pre>
-      <code>
-        <strong>Réactive:</strong>
+      <pre data-lang='Réactive' class='prettyprint'>
+
         A = 1;
         B = A + 1;
         C = B + 1;
@@ -37,7 +34,6 @@
         A = 100;
         B = <strong>101</strong>;
         C = <strong>102</strong>;
-      </code>
         </pre>
     </div>
   </div>
@@ -45,27 +41,27 @@
   <p>Comme nous pouvons le constater, ces deux approches compilent le code de manière différente.</p>
 
   <p>
-    <strong>Répondre au téléphone et Manger son repas ?</strong>
+    <strong>Répondre au téléphone et manger son repas ?</strong>
   </p>
 
   <p>L'approche impérative terminera la discussion téléphonique avant d'attaquer le repas, alors que l'approche réactive
-    pourra <strong>combiner les deux actions</strong> et manger son repas en étant en communication.</p>
+    pourra <strong>combiner les deux actions</strong> et manger le repas en étant en communication.</p>
 
-  <p>Après avoir discuter de la différence entre l'approche réactive et impérative, voyons les bénéfices d'une approche
-    réative avec Angular.</p>
+  <p>Après avoir discuté de la différence entre l'approche réactive et impérative, voyons les bénéfices d'une approche
+    réactive avec Angular.</p>
 
   <h2>2 - La programmation réactive avec Angular</h2>
 
   <p>Analysons dans un premier temps une approche impérative dans un composant Angular.</p>
-  <p>Dans cet exemple nous cherchons à créer: </p>
+  <p>Dans cet exemple nous cherchons à créer : </p>
   <ol>
-    <li>Une barre de recherche pour trouver un super héro</li>
-    <li>Nous affichons maximum 3 super héros</li>
+    <li>Une barre de recherche pour trouver un super-héro</li>
+    <li>Nous affichons un maximum 3 super-héros</li>
     <li>Cette liste ce met à jour toutes les 1,5sec</li>
   </ol>
 
-  <pre>
-    <code>
+  <pre data-lang='Impérative code' class='prettyprint'>
+
       search = new FormControl('');
       superHeroes: SuperHero[] = [];
       baseUrl = 'https://fakeurl.com';
@@ -79,18 +75,20 @@
           });
         });
       }
-    </code>
   </pre>
 
-  <p>Premier code smell ici: <strong>nested subscriptions.</strong> The comportement entrainera des effets de bord.
-  A chaque fois que notre observable (search valueChanges) change, le code à l'intérieur de la souscription est exécuté à nouveau.
-  Une nouvelle réponse HTTP est reçue, un nouvel interval est créé. En effet, aucune des souscriptions n'est annulée, et elles s'accumulent de manière silencieuse jusqu'à entrainer le crash de votre ordinateur.</p>
-  <p>Ce qu'il nous faut: La recherche précedente doit être annulée lorsqu'une nouvelle est lancée.</p>
+  <p>Premier code smell ici : <strong>nested subscriptions.</strong> Le comportement entrainera des effets de bord.
+    A chaque fois que notre observable (search valueChanges) change, le code à l'intérieur de la souscription est
+    exécuté à nouveau.
+    Une nouvelle réponse HTTP est reçue, un nouvel interval est créé. En effet, aucune des souscriptions n'est annulée,
+    elles s'accumulent de manière silencieuse jusqu'à entrainer le crash de votre ordinateur.</p>
+  <p>Ce qu'il nous faut : La recherche précédente doit être annulée lorsqu'une nouvelle est lancée.</p>
 
   <h2>L'approche réactive</h2>
 
-  <p>Nous avons les inconvénients d'imiter le comportement des promesses (avec les fonctions de rappel dans notre souscription).
-  Nous devons changer la manière dont le code est implémenté. Nous avons 3 évènements auxquels réagir: </p>
+  <p>Nous avons vu les inconvénients d'imiter le comportement des promesses (avec les fonctions de rappel dans notre
+    souscription).
+    Nous devons changer la manière dont le code est implémenté. Nous avons 3 évènements auxquels réagir : </p>
   <ol>
     <li>La saisie de l'utilisateur</li>
     <li>L'appel HTTP</li>
@@ -99,8 +97,7 @@
 
   <p>Voyons le code: </p>
 
-  <pre>
-    <code>
+  <pre data-lang='Réactive code' class='prettyprint'>
       search = new FormControl('');
       baseUrl = 'https://fakeurl.com';
 
@@ -119,14 +116,27 @@
       );
 
       constructor(private http: HttpClient) {{ "{}" }}
-
-    </code>
   </pre>
 
-  <p>Dans cet exemple nous utilisons 4 opérateurs: debounceTime, distinctUntilChanged, combineLatest.</p>
+  <p>Dans cet exemple nous utilisons 4 opérateurs: debounceTime, distinctUntilChanged, switchMap, combineLatest.</p>
 
-  <p>La première opération est une opération de <strong>débounce</strong>. Cette opération permet de ne pas exécuter la fonction de rappel de la souscription si la valeur de la source change toutes les 500ms.</p>
+  <p>La première opération est une opération de <strong>débounce</strong>. Cette opération permet de ne pas exécuter la
+    fonction de rappel de la souscription si la valeur de la source change toutes les 500ms.</p>
+  <p>distinctUntilChange ne lancera pas de nouvelle requête si la valeur précédente est la même que la nouvelle
+    valeur.</p>
+  <p>switchMap annulera la dernière requête en cours si une nouvelle est lancée.</p>
+  <p>combineLatest permet de combiner la dernière valeur de plusieurs observables.</p>
 
-  <p>WIP...</p>
+  <p>Vous avez remarqué que nous n'avons souscrit à aucun observable pour le moment.</p>
+  <p>Angular fourni une méthode très pratique pour s'abonner ou se désabonner à un flux, la pipe <strong>async</strong>
+  </p>
+
+  <pre data-lang='HTML Template usage' class='prettyprint'>
+      {{htmlCode}}
+  </pre>
+
+  <p>Cette méthode permet de faire une pierre, deux coups. D'une part, la pipe async terminera automatiquement
+    l'abonnement à l'observable quand le composant sera détruit,
+    et d'autre part, les effets de bord seront supprimés.</p>
 
 </p-card>

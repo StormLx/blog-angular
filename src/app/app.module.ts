@@ -9,6 +9,8 @@ import {SideNavComponent} from './layout/side-nav/side-nav.component';
 import {AkaiModule} from "./akai/akai.module";
 import {SharedModule} from "./shared/shared.module";
 import { HomeComponent } from './layout/home/home.component';
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { HomeComponent } from './layout/home/home.component';
     AppRoutingModule,
     SharedModule,
     AkaiModule,
+    ButtonModule,
+    RippleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

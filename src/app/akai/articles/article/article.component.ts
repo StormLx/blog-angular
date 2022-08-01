@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ArticleComponent implements OnInit {
 
+  htmlCode = `
+        <div *ngFor="let hero of superHeroesCarousel$ | async">
+            {{ hero.name }}
+        </div>`;
+
   constructor() { }
 
   ngOnInit(): void {
