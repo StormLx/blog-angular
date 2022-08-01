@@ -57,7 +57,7 @@
   <ol>
     <li>Une barre de recherche pour trouver un super-héro</li>
     <li>Nous affichons un maximum 3 super-héros</li>
-    <li>Cette liste ce met à jour toutes les 1,5sec</li>
+    <li>Cette liste se met à jour toutes les 1,5sec</li>
   </ol>
 
   <pre data-lang='Impérative code' class='prettyprint'>
@@ -82,20 +82,20 @@
     exécuté à nouveau.
     Une nouvelle réponse HTTP est reçue, un nouvel interval est créé. En effet, aucune des souscriptions n'est annulée,
     elles s'accumulent de manière silencieuse jusqu'à entrainer le crash de votre ordinateur.</p>
-  <p>Ce qu'il nous faut : La recherche précédente doit être annulée lorsqu'une nouvelle est lancée.</p>
+  <p>Ce qu'il nous faut : la recherche précédente doit être annulée lorsqu'une nouvelle est lancée.</p>
 
   <h2>L'approche réactive</h2>
 
   <p>Nous avons vu les inconvénients d'imiter le comportement des promesses (avec les fonctions de rappel dans notre
     souscription).
-    Nous devons changer la manière dont le code est implémenté. Nous avons 3 évènements auxquels réagir : </p>
+    Nous devons changer la manière dont le code est implémenté. Nous avons 3 événements auxquels réagir : </p>
   <ol>
     <li>La saisie de l'utilisateur</li>
     <li>L'appel HTTP</li>
     <li>L'interval de rafraichissement des résultats</li>
   </ol>
 
-  <p>Voyons le code: </p>
+  <p>Voyons le code : </p>
 
   <pre data-lang='Réactive code' class='prettyprint'>
       search = new FormControl('');
@@ -118,7 +118,7 @@
       constructor(private http: HttpClient) {{ "{}" }}
   </pre>
 
-  <p>Dans cet exemple nous utilisons 4 opérateurs: debounceTime, distinctUntilChanged, switchMap, combineLatest.</p>
+  <p>Dans cet exemple nous utilisons 4 opérateurs : debounceTime, distinctUntilChanged, switchMap, combineLatest.</p>
 
   <p>La première opération est une opération de <strong>débounce</strong>. Cette opération permet de ne pas exécuter la
     fonction de rappel de la souscription si la valeur de la source change toutes les 500ms.</p>
@@ -128,7 +128,7 @@
   <p>combineLatest permet de combiner la dernière valeur de plusieurs observables.</p>
 
   <p>Vous avez remarqué que nous n'avons souscrit à aucun observable pour le moment.</p>
-  <p>Angular fourni une méthode très pratique pour s'abonner ou se désabonner à un flux, la pipe <strong>async</strong>
+  <p>Angular fournit une méthode très pratique pour s'abonner ou se désabonner à un flux, la pipe <strong>async</strong>
   </p>
 
   <pre data-lang='HTML Template usage' class='prettyprint'>
