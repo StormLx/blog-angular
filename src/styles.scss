@@ -3,7 +3,8 @@
 @import '~primeflex/primeflex.min.css';
 @import '~primeicons/primeicons.css';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
-@import "https://cdn.rawgit.com/google/code-prettify/master/styles/desert.css";
+//@import "https://cdn.rawgit.com/google/code-prettify/master/styles/desert.css";
+@import '~highlight.js/styles/monokai-sublime.css';
 
 $lightGray: #fafafa;
 $medBlue: #8ca5ce;
@@ -25,7 +26,7 @@ body {
   padding: 0;
 }
 
-code,
+/*code,
 .code,
 pre {
   font-family: 'Source Code Pro', serif;
@@ -49,4 +50,4 @@ pre {
   .w {
     color: white;
   }
-}
+}*/

@@ -9,31 +9,13 @@
   Voyez l'exemple suivant :
   <div class="grid">
     <div class="col-6">
-      <pre data-lang='Impérative' class='prettyprint'>
-
-        A = 1;
-        B = A + 1;
-        C = B + 1;
-        A = 100;
-
-        <strong>Résultat:</strong>
-        A = 100;
-        B = <strong>2</strong>;
-        C = <strong>3</strong>;
+      <pre>
+        <code [highlight]="VSimperative"></code>
         </pre>
     </div>
     <div class="col-6">
-      <pre data-lang='Réactive' class='prettyprint'>
-
-        A = 1;
-        B = A + 1;
-        C = B + 1;
-        A = 100;
-
-        <strong>Résultat:</strong>
-        A = 100;
-        B = <strong>101</strong>;
-        C = <strong>102</strong>;
+      <pre>
+        <code [highlight]="VSdeclarative"></code>
         </pre>
     </div>
   </div>
@@ -60,21 +42,8 @@
     <li>Cette liste se met à jour toutes les 1,5sec</li>
   </ol>
 
-  <pre data-lang='Impérative code' class='prettyprint'>
-
-      search = new FormControl('');
-      superHeroes: SuperHero[] = [];
-      baseUrl = 'https://fakeurl.com';
-
-      constructor(private http: HttpClient) {{ "{}" }}
-
-      ngOnInit() {{ "{" }}
-        this.search.valueChanges.subscribe((searchText: string) =>
-          this.http.get(this.baseUrl + searchText).subscribe((results) => {{ "{" }}
-            interval(1500).subscribe((int) => this.superHeroes = results.superHeroes);
-          });
-        });
-      }
+  <pre>
+    <code [highlight]="imperativeCode"></code>
   </pre>
 
   <p>Premier code smell ici : <strong>nested subscriptions.</strong> Le comportement entrainera des effets de bord.
@@ -97,25 +66,8 @@
 
   <p>Voyons le code : </p>
 
-  <pre data-lang='Réactive code' class='prettyprint'>
-      search = new FormControl('');
-      baseUrl = 'https://fakeurl.com';
-
-      superHeroes$: Observable{{'<\SuperHero[]>'}} = this.search.valueChanges.pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        switchMap((searchText: string) => this.http.get(this.baseUrl + searchText))
-      );
-
-      triggeredInterval$ = this.superHeroes$.pipe(
-        switchMap((results) => interval(1500))
-      );
-
-      superHeroesCarousel$ = combineLatest(this.superHeroes$, this.triggeredInterval$).pipe(
-        map(([superHeroes, int]) => superHeroes)
-      );
-
-      constructor(private http: HttpClient) {{ "{}" }}
+  <pre>
+    <code [highlight]="reactiveCode"></code>
   </pre>
 
   <p>Dans cet exemple nous utilisons 4 opérateurs : debounceTime, distinctUntilChanged, switchMap, combineLatest.</p>
@@ -131,8 +83,8 @@
   <p>Angular fournit une méthode très pratique pour s'abonner ou se désabonner à un flux, la pipe <strong>async</strong>
   </p>
 
-  <pre data-lang='HTML Template usage' class='prettyprint'>
-      {{htmlCode}}
+  <pre>
+      <code [highlight]="htmlCode"></code>
   </pre>
 
   <p>Cette méthode permet de faire une pierre, deux coups. D'une part, la pipe async terminera automatiquement

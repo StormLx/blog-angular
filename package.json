@@ -26,6 +26,7 @@
     "@nguniversal/express-engine": "^14.0.3",
     "@nrwl/angular": "^14.4.3",
     "express": "^4.15.2",
+    "ngx-highlightjs": "^7.0.1",
     "primeflex": "^3.2.1",
     "primeicons": "^5.0.0",
     "primeng": "^14.0.0",

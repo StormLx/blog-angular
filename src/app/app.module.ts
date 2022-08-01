@@ -8,9 +8,10 @@ import {MainComponent} from './layout/main/main.component';
 import {SideNavComponent} from './layout/side-nav/side-nav.component';
 import {AkaiModule} from "./akai/akai.module";
 import {SharedModule} from "./shared/shared.module";
-import { HomeComponent } from './layout/home/home.component';
+import {HomeComponent} from './layout/home/home.component';
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
+import {HIGHLIGHT_OPTIONS, HighlightModule} from "ngx-highlightjs";
 
 @NgModule({
   declarations: [
@@ -27,8 +28,16 @@ import {RippleModule} from "primeng/ripple";
     AkaiModule,
     ButtonModule,
     RippleModule,
+    HighlightModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        fullLibraryLoader: () => import('highlight.js')
+      }
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

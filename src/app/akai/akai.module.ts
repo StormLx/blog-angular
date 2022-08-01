@@ -4,6 +4,7 @@ import {AkaiRoutingModule} from './akai-routing.module';
 import {SharedModule} from "../shared/shared.module";
 import {ArticlesComponent} from "./articles/articles.component";
 import {ArticleComponent} from "./articles/article/article.component";
+import {HighlightModule} from "ngx-highlightjs";
 
 
 @NgModule({
@@ -11,9 +12,10 @@ import {ArticleComponent} from "./articles/article/article.component";
     ArticlesComponent,
     ArticleComponent
   ],
-  imports: [
-    SharedModule,
-    AkaiRoutingModule,
-  ]
+    imports: [
+        SharedModule,
+        AkaiRoutingModule,
+        HighlightModule,
+    ]
 })
 export class AkaiModule { }
