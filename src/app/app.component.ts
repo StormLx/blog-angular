@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import articles from '../assets/file/articles.json';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',

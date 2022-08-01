@@ -1,42 +1,132 @@
 <p-card>
-  <h1>-- Nom de l'article --</h1>
-  <h2>Introduction</h2>
-  <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima officia quas saepe velit voluptates. A animi,
-    aspernatur aut ducimus praesentium similique ut vel voluptate! Dolorem inventore molestias odit! Eum, explicabo.
+  <h1>Pourquoi utiliser la programmation réactive avec Angular ?</h1>
+  <h2>1 - Programmation réactive VS Programmation impérative</h2>
+
+  <p>La programmation impérative est une programmation qui se base sur des instructions précises et définies par
+    l'utilisateur, exécutées ligne par ligne de manière <strong>synchrone</strong>.</p>
+  <p>La programmation réactive est une approche de programmation qui utilise des flux de données pour gérer les données
+    de manière <strong>asynchrone</strong>.</p>
+  Voyez l'exemple suivant:
+  <div class="grid">
+    <div class="col-6">
+      <pre>
+      <code>
+        <strong>Impérative:</strong>
+        A = 1;
+        B = A + 1;
+        C = B + 1;
+        A = 100;
+
+        <strong>Résultat:</strong>
+        A = 100;
+        B = <strong>2</strong>;
+        C = <strong>3</strong>;
+      </code>
+        </pre>
+    </div>
+    <div class="col-6">
+      <pre>
+      <code>
+        <strong>Réactive:</strong>
+        A = 1;
+        B = A + 1;
+        C = B + 1;
+        A = 100;
+
+        <strong>Résultat:</strong>
+        A = 100;
+        B = <strong>101</strong>;
+        C = <strong>102</strong>;
+      </code>
+        </pre>
+    </div>
   </div>
-  <div>A assumenda dolor eaque eligendi est ex, explicabo hic illum in magnam maxime molestias nemo neque nisi nobis
-    pariatur qui quibusdam reiciendis, rem repellendus rerum sapiente, similique temporibus ullam vitae.
-  </div>
-  <div>Aut corporis distinctio dolor earum eum ipsum necessitatibus vel voluptates. Incidunt minus mollitia nam nesciunt
-    nisi optio, quas repellendus ut! Aliquam ducimus facilis id modi molestiae possimus quas quibusdam tempore.
-  </div>
-  <div>Assumenda fugit ipsa, ipsum itaque laborum necessitatibus quo quod soluta tempora voluptatum? Alias doloremque
-    doloribus eveniet facere in, ipsam libero maiores natus officia officiis perspiciatis qui tempore voluptatem? In,
-    sapiente!
-  </div>
-  <p-divider align="left">
-    <span>Partie 1</span>
-  </p-divider>
-  <div>Distinctio dolor laudantium molestiae, nemo optio quos rerum sed! Aperiam commodi, eius in rerum similique
-    veritatis voluptate voluptatem voluptates. Assumenda, et ut. Amet culpa expedita facere placeat possimus praesentium
-    voluptas.
-  </div>
-  <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus autem cum, dignissimos incidunt laudantium
-    nisi rem voluptatibus. Maiores pariatur quod sunt totam. Aut delectus facere obcaecati omnis quam sed. Architecto.
-  </div>
-  <div>A amet asperiores et eum eveniet, ex, explicabo facere fugit nemo nesciunt nihil nobis, perspiciatis quae
-    repellat ut vitae voluptate? Amet animi atque dolores inventore itaque nesciunt quae quod repudiandae?
-  </div>
-  <p-divider align="left">
-    <span>Partie 2</span>
-  </p-divider>
-  <div>Aspernatur at, beatae consequatur doloribus eveniet placeat quos recusandae. Adipisci eos maxime molestiae non,
-    optio praesentium quas rem repudiandae tempore? Ab at autem ea ipsa mollitia natus officia provident temporibus!
-  </div>
-  <div>A beatae, dolores ea eos iure laudantium molestiae numquam omnis quia quisquam rem suscipit ullam voluptatibus.
-    Adipisci deleniti eligendi labore maiores minima minus odio, repellat rerum! Cum ipsa numquam quaerat.
-  </div>
-  <div>A accusantium alias, aspernatur at atque culpa cupiditate est eum, id itaque maiores molestias nihil omnis
-    provident quam quas qui quos ratione vitae voluptatum. Dolorem explicabo iste quaerat quibusdam totam.
-  </div>
+
+  <p>Comme nous pouvons le constater, ces deux approches compilent le code de manière différente.</p>
+
+  <p>
+    <strong>Répondre au téléphone et Manger son repas ?</strong>
+  </p>
+
+  <p>L'approche impérative terminera la discussion téléphonique avant d'attaquer le repas, alors que l'approche réactive
+    pourra <strong>combiner les deux actions</strong> et manger son repas en étant en communication.</p>
+
+  <p>Après avoir discuter de la différence entre l'approche réactive et impérative, voyons les bénéfices d'une approche
+    réative avec Angular.</p>
+
+  <h2>2 - La programmation réactive avec Angular</h2>
+
+  <p>Analysons dans un premier temps une approche impérative dans un composant Angular.</p>
+  <p>Dans cet exemple nous cherchons à créer: </p>
+  <ol>
+    <li>Une barre de recherche pour trouver un super héro</li>
+    <li>Nous affichons maximum 3 super héros</li>
+    <li>Cette liste ce met à jour toutes les 1,5sec</li>
+  </ol>
+
+  <pre>
+    <code>
+      search = new FormControl('');
+      superHeroes: SuperHero[] = [];
+      baseUrl = 'https://fakeurl.com';
+
+      constructor(private http: HttpClient) {{ "{}" }}
+
+      ngOnInit() {{ "{" }}
+        this.search.valueChanges.subscribe((searchText: string) =>
+          this.http.get(this.baseUrl + searchText).subscribe((results) => {{ "{" }}
+            interval(1500).subscribe((int) => this.superHeroes = results.superHeroes);
+          });
+        });
+      }
+    </code>
+  </pre>
+
+  <p>Premier code smell ici: <strong>nested subscriptions.</strong> The comportement entrainera des effets de bord.
+  A chaque fois que notre observable (search valueChanges) change, le code à l'intérieur de la souscription est exécuté à nouveau.
+  Une nouvelle réponse HTTP est reçue, un nouvel interval est créé. En effet, aucune des souscriptions n'est annulée, et elles s'accumulent de manière silencieuse jusqu'à entrainer le crash de votre ordinateur.</p>
+  <p>Ce qu'il nous faut: La recherche précedente doit être annulée lorsqu'une nouvelle est lancée.</p>
+
+  <h2>L'approche réactive</h2>
+
+  <p>Nous avons les inconvénients d'imiter le comportement des promesses (avec les fonctions de rappel dans notre souscription).
+  Nous devons changer la manière dont le code est implémenté. Nous avons 3 évènements auxquels réagir: </p>
+  <ol>
+    <li>La saisie de l'utilisateur</li>
+    <li>L'appel HTTP</li>
+    <li>L'interval de rafraichissement des résultats</li>
+  </ol>
+
+  <p>Voyons le code: </p>
+
+  <pre>
+    <code>
+      search = new FormControl('');
+      baseUrl = 'https://fakeurl.com';
+
+      superHeroes$: Observable{{'<\SuperHero[]>'}} = this.search.valueChanges.pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap((searchText: string) => this.http.get(this.baseUrl + searchText))
+      );
+
+      triggeredInterval$ = this.superHeroes$.pipe(
+        switchMap((results) => interval(1500))
+      );
+
+      superHeroesCarousel$ = combineLatest(this.superHeroes$, this.triggeredInterval$).pipe(
+        map(([superHeroes, int]) => superHeroes)
+      );
+
+      constructor(private http: HttpClient) {{ "{}" }}
+
+    </code>
+  </pre>
+
+  <p>Dans cet exemple nous utilisons 4 opérateurs: debounceTime, distinctUntilChanged, combineLatest.</p>
+
+  <p>La première opération est une opération de <strong>débounce</strong>. Cette opération permet de ne pas exécuter la fonction de rappel de la souscription si la valeur de la source change toutes les 500ms.</p>
+
+  <p>WIP...</p>
+
 </p-card>
